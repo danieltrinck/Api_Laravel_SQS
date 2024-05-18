@@ -18,7 +18,7 @@ class SendMessageSQS extends Controller
                 'version'     => 'latest',
                 'region'      => 'sa-east-1',
                 'credentials' => [
-                    'key'     => env('AWS_ACCESS_KEY_ID'),
+                    'key'     => env('xAWS_ACCESS_KEY_ID'),
                     'secret'  => env('AWS_SECRET_ACCESS_KEY'),
                 ],
             ]);
@@ -29,11 +29,13 @@ class SendMessageSQS extends Controller
             ];
        
             $result = $client->sendMessage($params);
-            echo "Mensagem enviada para fila SQS.\n";
+            return "Mensagem enviada para fila SQS.\n";
     
         } catch (AwsException $e) {
-            //output error message if fails
+            // grava a mensagem de erro se houver falhas no processo
             error_log($e->getMessage());
+            Log::channel('database')->error('SendMessageSQS.sendSQS', ['exception' => $e]);
+            return response()->json(['error' => 'Falha na execução']);
         }
 
     }

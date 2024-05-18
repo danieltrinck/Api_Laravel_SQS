@@ -9,7 +9,7 @@ use App\Jobs\ProcessSqsMessage;
 
 class FetchSqsMessages extends Command
 {
-    protected $signature = 'sqs:fetch-messages';
+    protected $signature   = 'sqs:fetch-messages';
     protected $description = 'Pega as mensagens na Amazon SQS';
 
     public function __construct()
@@ -42,21 +42,22 @@ class FetchSqsMessages extends Command
                 'WaitTimeSeconds'     => 0,
             ]);
 
-            if (!empty($result->get('Messages'))) {
-                foreach ($result->get('Messages') as $message) {
+            if (!empty($result->get('Messages'))) 
+            {
+                foreach ($result->get('Messages') as $message) 
+                {
                     ProcessSqsMessage::dispatch($message);
                     $client->deleteMessage([
                         'QueueUrl'      => $queue_url,
                         'ReceiptHandle' => $message['ReceiptHandle'],
                     ]);
                 }
-            }else {
-                echo "Sem mensagens na fila para processar.\n";
             }
 
         } catch (AwsException $e) {
             // grava a mensagem de erro se houver falhas no processo
             error_log($e->getMessage());
+            Log::channel('database')->error('FetchSqsMessages', ['exception' => $e]);
         }
     }
 }

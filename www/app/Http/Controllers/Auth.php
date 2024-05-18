@@ -26,7 +26,7 @@ class Auth extends Controller
             return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
 
         } catch (\Throwable $th) {
-            Log::channel('database')->error('login', ['exception' => $th]);
+            Log::channel('database')->error('Auth.login', ['exception' => $th]);
             return response()->json(['error' => 'Falha na execução']);
         }
     }
