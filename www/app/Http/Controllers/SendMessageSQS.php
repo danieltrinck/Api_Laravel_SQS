@@ -18,7 +18,7 @@ class SendMessageSQS extends Controller
                 'version'     => 'latest',
                 'region'      => 'sa-east-1',
                 'credentials' => [
-                    'key'     => env('xAWS_ACCESS_KEY_ID'),
+                    'key'     => env('AWS_ACCESS_KEY_ID'),
                     'secret'  => env('AWS_SECRET_ACCESS_KEY'),
                 ],
             ]);
