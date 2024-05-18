@@ -17,9 +17,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'AWS_ACCESS_KEY_ID' => env('AWS_ACCESS_KEY_ID');
-    'AWS_SECRET_ACCESS_KEY' => env('AWS_SECRET_ACCESS_KEY');
-    'SQS_PREFIX' => env('SQS_PREFIX');
+    'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
+    'aws_secret_access_key' => env('AWS_SECRET_ACCESS_KEY'),
+    'sqs_prefix' => env('SQS_PREFIX'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
