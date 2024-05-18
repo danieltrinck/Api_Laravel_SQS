@@ -10,7 +10,7 @@ use App\Jobs\ProcessSqsMessage;
 class FetchSqsMessages extends Command
 {
     protected $signature = 'sqs:fetch-messages';
-    protected $description = 'Pega as mensagens da Amazon SQS';
+    protected $description = 'Pega as mensagens na Amazon SQS';
 
     public function __construct()
     {
@@ -28,14 +28,14 @@ class FetchSqsMessages extends Command
             'version'     => 'latest',
             'region'      => 'sa-east-1',
             'credentials' => [
-                'key'     => config('AWS_ACCESS_KEY_ID'),
-                'secret'  => config('AWS_SECRET_ACCESS_KEY'),
+                'key'     => env('AWS_ACCESS_KEY_ID'),
+                'secret'  => env('AWS_SECRET_ACCESS_KEY'),
             ],
         ]);
 
         try {
        
-            $queue_url = config('SQS_PREFIX');
+            $queue_url = env('SQS_PREFIX');
             $result = $client->receiveMessage([
                 'QueueUrl'            => $queue_url,
                 'MaxNumberOfMessages' => 10,
@@ -55,8 +55,7 @@ class FetchSqsMessages extends Command
             }
 
         } catch (AwsException $e) {
-            // output error message if fails
-            echo $e->getMessage();
+            // grava a mensagem de erro se houver falhas no processo
             error_log($e->getMessage());
         }
     }
