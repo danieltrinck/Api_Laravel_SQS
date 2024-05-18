@@ -10,7 +10,7 @@ use Hash;
 
 class Auth extends Controller
 {
-    public function login(RequestAuth $request)
+    public function getToken(RequestAuth $request)
     {
 
         try {
@@ -23,11 +23,18 @@ class Auth extends Controller
         
             $token = $user->createToken('auth_token')->plainTextToken;
         
-            return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+            return response()->json([
+                'success'      => true,
+                'access_token' => $token,
+                'token_type'   => 'Bearer'
+            ]);
 
         } catch (\Throwable $th) {
             Log::channel('database')->error('Auth.login', ['exception' => $th]);
-            return response()->json(['error' => 'Falha na execução']);
+            return response()->json([
+                'error'   => true,
+                'message' => 'Falha na execução'
+            ]);
         }
     }
 }

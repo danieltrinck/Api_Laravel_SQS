@@ -6,4 +6,4 @@ use App\Http\Controllers\SendMessageSQS;
 use App\Http\Controllers\Auth;
 
 Route::post('/sendMessageSQS', [SendMessageSQS::class,'sendSQS'])->middleware('auth:sanctum');
-Route::post('/login', [Auth::class,'login']);
+Route::post('/getToken', [Auth::class,'getToken']);
