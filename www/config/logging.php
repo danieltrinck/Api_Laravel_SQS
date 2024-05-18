@@ -51,6 +51,13 @@ return [
     */
 
     'channels' => [
+
+        'database' => [
+            'driver' => 'custom',
+            'via'    => App\Log\DatabaseLog::class,
+            'level'  => 'error',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

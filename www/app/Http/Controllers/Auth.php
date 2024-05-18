@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RequestAuth;
 use App\Models\User;
 use Hash;
@@ -25,7 +26,8 @@ class Auth extends Controller
             return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
 
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::channel('database')->error('login', ['exception' => $th]);
+            return response()->json(['error' => 'Falha na execução']);
         }
     }
 }
