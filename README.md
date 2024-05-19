@@ -34,11 +34,11 @@ php /path-to-your-project/artisan schedule:run
 ```
 
 ### Executar a fila do laravel
-Deixar o comando abaixo rodando em background para processar as filas
+Deixar o comando abaixo rodando em background para processar as filas. Nesse momento poderia ser feito um post para qualquer api atualizando os dados. Como é um teste será registrado em um banco de dados na tabela mercadolivre.
+Todo o sistema conta com log de erros em tempo de execução. Os erros das filas serão registrados na tabela failed_jobs e os demais na tabela logs.
 ```php
 php artisan queue:work
 ```
-
 
 ### Documentação da API
 Para testar o sistema, rodar o comando abaixo. Se tudo estiver correto será possível acessar a página da API com os dados de envio para gerar as mensagens e processar as filas.
