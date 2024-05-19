@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "98e826a6-c5d5-4101-b422-1752e2b488e5",
+		"name": "API_Irroba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6438229"
+	},
+	"item": [
+		{
+			"name": "SendMessageSQS",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Mercadolivre\": {\n        \"auth\": {\n            \"token_irroba\": \"{{token}}\"\n        },\n        \"type\": \"stock_db\",\n        \"mass\": false,\n        \"store_id\": \"123\",\n        \"domain\": \"http://www.exemplo.com.br\",\n        \"is_api\": false,\n        \"products\": [\n            {\n                \"product_id\": \"3422\",\n                \"merca_id\": \"MLBxxxxxxx\",\n                \"variations\": [\n                    {\n                        \"id\": \"180469698170\",\n                        \"available_quantity\": 999,\n                        \"unic\": \"0\",\n                        \"refresh_token\": \"TG-xxxxxxxxxxxx5655555-70357035\",\n                        \"account_id\": \"7\",\n                        \"sku_id\": \"3422-18838\"\n                    },\n                    {\n                        \"id\": \"180469698172\",\n                        \"available_quantity\": \"100\",\n                        \"unic\": \"0\",\n                        \"refresh_token\": \"TG-xxxxxxxxxxxx5655555-70357035\",\n                        \"account_id\": \"7\",\n                        \"sku_id\": \"3422-18839\"\n                    }\n                ]\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/sendMessageSQS",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"sendMessageSQS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = pm.response.json();",
+							"if(res.access_token){",
+							"    pm.environment.set('token', res.access_token);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "api@irroba.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "irroba",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://irroba.loc/api/login",
+					"protocol": "http",
+					"host": [
+						"irroba",
+						"loc"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
