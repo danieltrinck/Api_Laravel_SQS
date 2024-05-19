@@ -24,8 +24,7 @@ AWS_SQS_QUEUE=your-queue-url
 ```
 
 ### Rodando o sistema criando as filas e agendando os recebimentos
-Agendando e iniciando o Scheduler do Laravel
-Cadastrar no cron do sistema a linha abaixo:
+Agendando e iniciando o Scheduler do Laravel. Cadastrar no cron do sistema a linha abaixo:
 ```php
 * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
 ```
@@ -46,5 +45,7 @@ Para testar o sistema, rodar o comando abaixo. Se tudo estiver correto será pos
 ```php
 php artisan serve
 ```
+Acessando a página com instruções sobre a autenticação e envio dos dados para AWS SQS.
+http://localhost:8000
 
 Com esses passos, terá um job agendado no Laravel que busca mensagens do Amazon SQS periodicamente e as processa conforme necessário.
