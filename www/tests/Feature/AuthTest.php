@@ -17,8 +17,6 @@ class AuthTest extends TestCase
     public function user_can_login_and_receive_token()
     {
 
-        DB::beginTransaction();
-
         // Create a user
         $user = User::factory()->create([
             'email'    => 'test@example.com',
@@ -43,7 +41,6 @@ class AuthTest extends TestCase
         $token = $response->json('access_token');
         $this->assertTrue(is_string($token) && strlen($token) > 0);
 
-        DB::rollback();
     }
 
 }

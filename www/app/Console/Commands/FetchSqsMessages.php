@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Aws\Exception\AwsException;
 use Aws\Sqs\SqsClient;
 use App\Jobs\ProcessSqsMessage;
+use App\Services\SqsService;
+
 
 class FetchSqsMessages extends Command
 {
@@ -24,35 +26,10 @@ class FetchSqsMessages extends Command
      */
     public function handle()
     {
-        $client = new SqsClient([
-            'version'     => 'latest',
-            'region'      => 'sa-east-1',
-            'credentials' => [
-                'key'     => env('AWS_ACCESS_KEY_ID'),
-                'secret'  => env('AWS_SECRET_ACCESS_KEY'),
-            ],
-        ]);
-
         try {
        
-            $queue_url = env('SQS_PREFIX');
-            $result = $client->receiveMessage([
-                'QueueUrl'            => $queue_url,
-                'MaxNumberOfMessages' => 10,
-                'WaitTimeSeconds'     => 0,
-            ]);
-
-            if (!empty($result->get('Messages'))) 
-            {
-                foreach ($result->get('Messages') as $message) 
-                {
-                    ProcessSqsMessage::dispatch($message);
-                    $client->deleteMessage([
-                        'QueueUrl'      => $queue_url,
-                        'ReceiptHandle' => $message['ReceiptHandle'],
-                    ]);
-                }
-            }
+            $sqs = new SqsService();
+            $sqs->receiveSQS();
 
         } catch (AwsException $e) {
             // grava a mensagem de erro se houver falhas no processo

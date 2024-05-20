@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RequestSendMessageSQS;
 use Aws\Exception\AwsException;
 use Aws\Sqs\SqsClient;
+use App\Services\SqsService;
 
 class SendMessageSQS extends Controller
 {
@@ -14,24 +15,11 @@ class SendMessageSQS extends Controller
         
         try {
     
-            $client = new SqsClient([
-                'version'     => 'latest',
-                'region'      => 'sa-east-1',
-                'credentials' => [
-                    'key'     => env('AWS_ACCESS_KEY_ID'),
-                    'secret'  => env('AWS_SECRET_ACCESS_KEY'),
-                ],
-            ]);
-
-            $params = [
-                'MessageBody' => json_encode($request->all()),
-                'QueueUrl'    => env('SQS_PREFIX')
-            ];
-       
-            $result = $client->sendMessage($params);
+            $sqs = new SqsService();
+            $sqs->sendSQS($request);
             return response()->json([
-                'success' => true,
-                'message' => 'Mensagem enviada para fila SQS'
+                "success" => true,
+                "message" => "Mensagem enviada para fila SQS"
             ]);
     
         } catch (AwsException $e) {

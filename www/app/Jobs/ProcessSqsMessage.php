@@ -39,29 +39,31 @@ class ProcessSqsMessage implements ShouldQueue
 
         try {
           
-            DB::beginTransaction();
             $message = $this->message['Body'];
             $message = json_decode($message);
-            $ml      = MercadoLivre::where('store_id', $message->Mercadolivre->store_id)->first();
+            if(isset($message->Mercadolivre))
+            {
+                DB::beginTransaction();
+                $ml      = MercadoLivre::where('store_id', $message->Mercadolivre->store_id)->first();
 
-            if($ml){
+                if($ml){
 
-                $ml->dados = $this->message['Body'];
-                $ml->save();
+                    $ml->dados = $this->message['Body'];
+                    $ml->save();
 
-            }else{
+                }else{
 
-                MercadoLivre::create([
-                    'store_id' => $message->Mercadolivre->store_id,
-                    'dados'    => $this->message['Body']
-                ]);
+                    MercadoLivre::create([
+                        'store_id' => $message->Mercadolivre->store_id,
+                        'dados'    => $this->message['Body']
+                    ]);
+                }
+                DB::commit();
             }
-
-            DB::commit();
 
         } catch (\Throwable $th) {
             DB::rollback();
-            Log::channel('database')->error('ProcessSqsMessage', ['exception' => $th]);
+            \Log::channel('database')->error('ProcessSqsMessage', ['exception' => $th]);
         }
 
     }
