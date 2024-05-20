@@ -55,7 +55,7 @@ php artisan serve
 Acessando a página com instruções sobre a autenticação e envio dos dados para AWS SQS.
 http://localhost:8000
 
-Para o funcionamento das filas, o envio de mensagens e o acesso pela API certifique-se de que os comandos abaixo estsão sendo executados ao mesmo tempo.
+Para o funcionamento das filas, o envio de mensagens e o acesso pela API certifique-se de que os comandos abaixo estão sendo executados ao mesmo tempo e em terminais diferentes.
 ```php
 php artisan serve
 php artisan queue:work
